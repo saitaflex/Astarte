@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Astarte design tokens */
+:root {
+  --orange-500: #f28c28;
+  --orange-300: #ffb45c;
+  --orange-700: #b45f0e; /* AA-safe orange for small text on cream */
+  --charcoal: #171717;
+  --cream: #f5f1ea;
+  --cream-deep: #ede6da;
+  --white: #ffffff;
+  --ink-muted: #5c5650;
+  --line: #e4ddd2;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@theme inline {
+  --color-orange: var(--orange-500);
+  --color-orange-soft: var(--orange-300);
+  --color-orange-ink: var(--orange-700);
+  --color-charcoal: var(--charcoal);
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --font-display: var(--font-fraunces), var(--font-arabic-display), Georgia, serif;
+  --font-sans: var(--font-inter), var(--font-arabic), system-ui, sans-serif;
+  --radius-card: 14px;
+}
+
+html {
+  background: var(--cream);
+  color: var(--charcoal);
+}
+
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Subtle paper grain over the whole page.
+   Kept in the base layer so utilities (z-index on the header and its menus) can override it. */
+@layer base {
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0 0.07 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+}
+
+/* The header and its dropdown menus always sit above page content. */
+body > header {
+  z-index: 40;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange-500);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--orange-300);
+  color: var(--charcoal);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+
+/* Arabic display text reads better slightly larger with more line height */
+[dir="rtl"] .font-display {
+  line-height: 1.35;
+}
+
+.fade-up {
+  animation: fade-up 0.6s var(--ease-out) both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(10px, -18px) rotate(6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
