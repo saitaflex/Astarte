@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Notice, Stat } from "@/components/dashboard/DashShell";
 import { pageContext, pick } from "@/lib/i18n/page";
 import { getReadiness } from "@/lib/readiness";
+import { demandForArtist } from "@/lib/recommend";
 import { DashShell, studioContext, studioNav } from "@/lib/studio";
 
 export const metadata: Metadata = { title: "Studio" };
@@ -13,6 +14,8 @@ export default async function StudioHome({ params, searchParams }: { params: Pro
   const { artist, db, badges } = await studioContext(locale);
   if (!artist) return <p className="p-10">Artist profile missing.</p>;
   const r = await getReadiness(db, artist.id);
+  const { data: myProducts } = await db.from("products").select("id").eq("artist_id", artist.id);
+  const demand = await demandForArtist(artist.id, (myProducts ?? []).map((p) => p.id)).catch(() => null);
 
   const steps = [
     { done: r.has_bio, label: pick(locale, { en: "Write a biography of at least 80 characters", fr: "Écrire une biographie d'au moins 80 caractères", ar: "اكتب نبذة من 80 حرفًا على الأقل" }), href: "profile" },
@@ -44,6 +47,26 @@ export default async function StudioHome({ params, searchParams }: { params: Pro
         <Stat label={pick(locale, { en: "Orders", fr: "Commandes", ar: "الطلبات" })} value={r.facts.orders} hint={`${r.facts.completedOrders} completed`} />
         <Stat label={pick(locale, { en: "Photos in review", fr: "Photos en revue", ar: "صور قيد المراجعة" })} value={r.facts.pendingImages} />
       </div>
+
+      {demand && (
+        <section className="mt-10">
+          <h2 className="font-display text-2xl">{pick(locale, { en: "Clients looking for work like yours", fr: "Les clients qui cherchent votre travail", ar: "عملاء يبحثون عن أعمال مثل أعمالك" })}</h2>
+          <p className="mt-1 text-sm text-muted">{pick(locale, { en: "Last 30 days. Real searches where Astarte's AI suggested you or your works, and what visitors did next. Anonymous.", fr: "30 derniers jours. Vraies recherches où l'IA d'Astarte vous a suggéré, et ce que les visiteurs ont fait ensuite. Anonyme.", ar: "آخر 30 يومًا. عمليات بحث حقيقية اقترحك فيها ذكاء Astarte، وما فعله الزوار بعدها. دون هوية." })}</p>
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <Stat label={pick(locale, { en: "Searches that showed you", fr: "Recherches qui vous ont montré", ar: "عمليات بحث أظهرتك" })} value={demand.searches} />
+            <Stat label={pick(locale, { en: "Views of you and your works", fr: "Vues de vous et vos œuvres", ar: "مشاهدات لك ولأعمالك" })} value={demand.views} />
+            <Stat label={pick(locale, { en: "Clicks from suggestions", fr: "Clics depuis les suggestions", ar: "نقرات من الاقتراحات" })} value={demand.recoClicks} />
+            <Stat label={pick(locale, { en: "Contact requests started", fr: "Demandes de contact", ar: "طلبات تواصل" })} value={demand.contacts} />
+          </div>
+          {demand.topQueries.length > 0 && (
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {demand.topQueries.map(([q, n]) => (
+                <li key={q} className="rounded-full border border-line bg-white px-3 py-1 text-sm">« {q} » <span className="text-muted">× {n}</span></li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
 
       <section className="mt-10">
         <h2 className="font-display text-2xl">{pick(locale, { en: "Next steps", fr: "Prochaines étapes", ar: "الخطوات التالية" })}</h2>

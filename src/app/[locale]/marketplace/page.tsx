@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { ProductArt } from "@/components/market/ProductArt";
+import { RecoStrip } from "@/components/recommend/RecoStrip";
+import { forVisitor, VISITOR_COOKIE } from "@/lib/recommend";
 import { CATEGORIES, categoryName } from "@/lib/data/categories";
 import { getCatalog } from "@/lib/data/repository";
 import type { Product } from "@/lib/data/types";
@@ -39,6 +42,13 @@ export default async function MarketplacePage({ params, searchParams }: { params
   const featured = filtering ? [] : products.filter((p) => p.featured).slice(0, 3);
   const usedCats = CATEGORIES.filter((c) => products.some((p) => p.categories.includes(c.slug)));
   const cities = [...new Set(products.map((p) => artistById.get(p.artistId)?.location?.city).filter(Boolean) as string[])].sort();
+  const reco = filtering ? { picks: [], personalised: false } : await forVisitor((await cookies()).get(VISITOR_COOKIE)?.value, 4);
+  const recoTitle = reco.personalised
+    ? (locale === "fr" ? "Pour vous" : locale === "ar" ? "مقترحات لك" : "For you")
+    : (locale === "fr" ? "À découvrir" : locale === "ar" ? "اكتشف" : "To discover");
+  const recoNote = reco.personalised
+    ? (locale === "fr" ? "D'après les œuvres que vous avez regardées" : locale === "ar" ? "حسب الأعمال التي شاهدتها" : "Based on the works you viewed")
+    : (locale === "fr" ? "Variété de savoir-faire ; se personnalise dès que vous regardez des œuvres" : locale === "ar" ? "تنوع في الحرف، ويتخصص بعد مشاهدة الأعمال" : "A mix of crafts; becomes personal as you view works");
 
   return (
     <div className="mx-auto max-w-6xl px-4 pt-8 sm:px-6">
@@ -57,6 +67,8 @@ export default async function MarketplacePage({ params, searchParams }: { params
           </div>
         </section>
       )}
+
+      <RecoStrip title={recoTitle} note={recoNote} picks={reco.picks} locale={locale} source={reco.personalised ? "for_you" : "discover"} priceOnRequest={t.results.priceOnRequest} />
 
       <form className="mt-14 grid gap-3 rounded-[22px] border border-line bg-white/70 p-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]" role="search">
         <input name="q" defaultValue={sp.q} placeholder={m.search} aria-label={m.search} className="rounded-xl border border-line bg-white px-4 py-2.5 outline-none focus:border-orange" />

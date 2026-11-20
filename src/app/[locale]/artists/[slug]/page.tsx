@@ -5,7 +5,9 @@ import { notFound } from "next/navigation";
 import { toggleFavoriteAction } from "@/app/actions/marketplace";
 import { EngagementTracker } from "@/components/points/EngagementTracker";
 import { PostReader } from "@/components/points/PostReader";
+import { TrackLink, TrackView } from "@/components/recommend/Track";
 import { ShareButtons } from "@/components/share/ShareButtons";
+import { similarArtists } from "@/lib/recommend";
 import { Submit } from "@/components/ui/form";
 import { getSessionUser } from "@/lib/auth/session";
 import { supabaseAdmin, supabaseServer } from "@/lib/supabase/server";
@@ -84,7 +86,11 @@ export default async function ArtistProfile({ params }: { params: Params }) {
       ar: "تظهر صور الأعمال هنا بعد المراجعة. الزخارف المعروضة مؤقتة.",
     }),
     area: pick(locale, { en: "Works within", fr: "Intervient dans un rayon de", ar: "يعمل ضمن" }),
+    near: pick(locale, { en: "Creators close to this one", fr: "Créateurs proches", ar: "مبدعون قريبون" }),
+    nearNote: pick(locale, { en: "Machine learning on works, photos and descriptions", fr: "Machine learning sur les œuvres, photos et descriptions", ar: "تعلم آلي على الأعمال والصور والأوصاف" }),
+    match: pick(locale, { en: "{n}% match", fr: "{n} % de proximité", ar: "تطابق {n}٪" }),
   };
+  const near = repo.source === "supabase" ? await similarArtists(artist.id, 3) : [];
 
   return (
     <article className="relative isolate">
@@ -261,12 +267,13 @@ export default async function ArtistProfile({ params }: { params: Params }) {
               <p className="mt-3 text-sm text-muted">{L.noContact}</p>
             )}
             {artist.acceptsCommissions && (
-              <Link
+              <TrackLink
                 href={`/${locale}/artists/${artist.slug}/request`}
+                ev={{ kind: "contact_click", artistId: artist.id, source: "artist_request" }}
                 className="mt-6 block rounded-full bg-orange px-5 py-3 text-center font-medium text-charcoal transition hover:bg-orange-soft"
               >
                 {L.request}
-              </Link>
+              </TrackLink>
             )}
             <form action={toggleFavoriteAction} className="mt-3">
               <input type="hidden" name="locale" value={locale} />
@@ -278,6 +285,29 @@ export default async function ArtistProfile({ params }: { params: Params }) {
         </aside>
         <EngagementTracker activity="profile_discovery" targetId={artist.id} seconds={20} enabled={isCustomer && repo.source === "supabase"} template={pointsTemplate} />
       </div>
+      <TrackView kind="view_artist" artistId={artist.id} />
+      {near.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 pb-6 pt-16 sm:px-6" aria-label={L.near}>
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="font-display text-2xl">{L.near}</h2>
+            <p className="text-xs text-muted">{L.nearNote}</p>
+          </div>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+            {near.map(({ artist: a, match }) => (
+              <li key={a.id}>
+                <TrackLink href={`/${locale}/artists/${a.slug}`} ev={{ kind: "recommendation_click", artistId: a.id, source: "similar_artist" }}
+                  className="flex items-center gap-3 rounded-[var(--radius-card)] border border-line bg-white/80 p-4 transition hover:border-orange">
+                  <CategoryIcon category={a.primaryCategory} size={40} />
+                  <span className="min-w-0">
+                    <span className="block truncate font-display text-lg">{a.displayName}</span>
+                    <span className="block text-xs text-muted">{categoryName(a.primaryCategory, locale)} · {L.match.replace("{n}", String(match))}</span>
+                  </span>
+                </TrackLink>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </article>
   );
 }

@@ -139,7 +139,8 @@ Full plan: `docs/DATA_PROTECTION_PLAN.md` (Tunisian law 2004-63 / INPDP, retenti
 
 | Test | Result |
 |---|---|
-| Unit tests (search, Arabizi, filters, AI guard, picture matching) | **15 / 15 pass** |
+| Unit tests (search, Arabizi, filters, AI guard, picture matching, recommender) | **19 / 19 pass** |
+| Recommender offline evaluation (top-3 neighbours share the craft) | **58.7 % vs 13.8 % random (×4.25), coverage 95 %** |
 | End-to-end journey (join → upload → admin review → order → points → incubation) on the real database | **23 / 23 checks pass** |
 | Live search set (EN/FR/AR/Derja, picture queries) | **14 / 14 correct first result** |
 | Anonymous-access security checks | Private tables invisible, inserts blocked, admin functions denied |
@@ -147,6 +148,11 @@ Full plan: `docs/DATA_PROTECTION_PLAN.md` (Tunisian law 2004-63 / INPDP, retenti
 | Build / lint / type-check | Clean |
 
 ---
+
+### Machine-learning suggestions
+- **Q: "Where is the machine learning that suggests clients to artists and artists to clients?"**
+  A: Each work and creator has a multilingual embedding (MiniLM, FR/EN/AR) built from its text, technique, materials and AI photo descriptions, stored in pgvector. Clients get "Vous aimerez aussi", "Créateurs proches" and a personal "Pour vous" (taste vector = mean of the works they viewed). Artists see the real searches where the AI suggested them, and the views, suggestion clicks and contact requests that followed. The ranking blends content (55 %), co-views (25 %), popularity (10 %) and same craft (10 %), then re-ranks for diversity.
+- **Q: "Is it any good?"** A: Offline, 58.7 % of the top-3 suggestions share the work's craft against 13.8 % at random, a ×4.25 lift (`scripts/eval-recommender.mjs`). Behaviour signals started on 20 Nov 2026, so click-through is not measured yet; we will report it, not guess it.
 
 ## Part 5 — How to defend it (likely questions and strong answers)
 

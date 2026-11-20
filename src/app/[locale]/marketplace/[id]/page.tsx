@@ -4,6 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { addToCartAction, toggleFavoriteAction } from "@/app/actions/marketplace";
 import { ProductArt } from "@/components/market/ProductArt";
+import { RecoStrip } from "@/components/recommend/RecoStrip";
+import { TrackLink, TrackView } from "@/components/recommend/Track";
+import { similarProducts } from "@/lib/recommend";
 import { ShareButtons } from "@/components/share/ShareButtons";
 import { Submit } from "@/components/ui/form";
 import { getSessionUser } from "@/lib/auth/session";
@@ -51,10 +54,14 @@ export default async function ProductPage({ params, searchParams }: { params: Pa
   }
   const canBuy = p.availability !== "unavailable" && (p.stock == null || p.stock > 0);
   const more = products.filter((x) => x.artistId === artist.id && x.id !== p.id).slice(0, 3);
+  const similar = (await similarProducts(p.id, 4)).filter((s) => s.artist.id !== artist.id || more.length === 0);
+  const recoTitle = locale === "fr" ? "Vous aimerez aussi" : locale === "ar" ? "قد يعجبك أيضًا" : "You may also like";
+  const recoNote = locale === "fr" ? "Suggestions par machine learning : contenu, visites et diversité" : locale === "ar" ? "اقتراحات بالتعلم الآلي: المحتوى والزيارات والتنوع" : "Machine-learning suggestions: content, visits and diversity";
   const back = `/${locale}/marketplace/${p.id}`;
 
   return (
     <article className="mx-auto max-w-6xl px-4 pt-8 sm:px-6">
+      <TrackView kind="view_product" productId={p.id} artistId={artist.id} />
       <Link href={`/${locale}/marketplace`} className="text-sm text-muted hover:text-charcoal">← {m.title}</Link>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.25fr_1fr]">
@@ -123,9 +130,9 @@ export default async function ProductPage({ params, searchParams }: { params: Pa
           </dl>
 
           <div className="mt-8 flex flex-wrap gap-4 text-sm">
-            <Link href={`/${locale}/artists/${artist.slug}#contact`} className="underline decoration-orange underline-offset-4">{m.contact}</Link>
+            <TrackLink href={`/${locale}/artists/${artist.slug}#contact`} ev={{ kind: "contact_click", artistId: artist.id, productId: p.id, source: "product" }} className="underline decoration-orange underline-offset-4">{m.contact}</TrackLink>
             {artist.acceptsCommissions && (
-              <Link href={`/${locale}/artists/${artist.slug}/request`} className="underline decoration-orange underline-offset-4">{m.custom}</Link>
+              <TrackLink href={`/${locale}/artists/${artist.slug}/request`} ev={{ kind: "contact_click", artistId: artist.id, productId: p.id, source: "product_request" }} className="underline decoration-orange underline-offset-4">{m.custom}</TrackLink>
             )}
           </div>
         </div>
@@ -149,6 +156,8 @@ export default async function ProductPage({ params, searchParams }: { params: Pa
           </ul>
         </section>
       )}
+
+      <RecoStrip title={recoTitle} note={recoNote} picks={similar} locale={locale} source="similar_product" priceOnRequest={t.results.priceOnRequest} />
     </article>
   );
 }
