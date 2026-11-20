@@ -62,7 +62,7 @@ w(PB)
 
 w("## Sommaire\n")
 for t in ["Résumé", "Le problème", "La solution", "Ce qui est mesuré aujourd'hui", "Marché et concurrence",
-          "Modèle économique", "Coût du produit", "Seuil de rentabilité", "Plan du pilote", "Indicateurs suivis",
+          "Modèle économique", "Coût du produit", "Seuil de rentabilité", "Besoin de financement : 50 000 DT", "Plan du pilote", "Indicateurs suivis",
           "Risques", "Ce que nous ne promettons pas", "Annexe : méthode et sources"]:
     w(f"1. {t}")
 w(PB)
@@ -83,6 +83,8 @@ w(f"**Ce que coûte le produit.** {dt(FIX0)} par mois aujourd'hui (offres gratui
 w(f"**Ce qu'il faut vendre.** À {pct(M.COMMISSION)} de commission sur une pièce de {dt(M.PRICE_MID)}, Astarte gagne {dt(PER_ORDER, 2)} "
   f"par commande : **{num(M.orders_to_cover(FIX1))} commandes par mois** couvrent l'hébergement, ou {num(M.pro_to_cover(FIX1) + 0.5)} "
   f"abonnés Atelier Pro. Couvrir un salaire demande beaucoup plus (section 8).\n")
+w(f"**Ce que nous demandons.** {dt(M.FUNDING_TOTAL)} pour {M.MONTHS} mois de pilote : équipe 53 %, terrain 12 %, visibilité 11 %, "
+  "administration 9 %, produit 6 %, réserve 9 %. Détail ligne par ligne et indicateurs liés en section 9.\n")
 w("<!-- kpi-cards -->")
 w(PB)
 
@@ -231,7 +233,44 @@ w("**Lecture.** L'hébergement se couvre avec 29 à 37 commandes par mois selon 
 w(PB)
 
 # 9 ---------------------------------------------------------------
-w("## 9. Plan du pilote (6 mois)\n")
+BUD = M.budget_lines()
+BLOCKS = {}
+for r in BUD:
+    BLOCKS[r[0]] = BLOCKS.get(r[0], 0) + r[4]
+w("## 9. Besoin de financement : 50 000 DT\n")
+w(f"**{dt(M.FUNDING_TOTAL)} pour {M.MONTHS} mois de pilote**, soit {dt(M.FUNDING_TOTAL / M.MONTHS)} par mois. Chaque dépense est liée "
+  "à un indicateur que la base de données mesure. Les prix marqués « estimation » seront remplacés par des devis.\n")
+w("### 9.1 Répartition par bloc\n")
+w("| Bloc | Montant | Part |\n|:--|--:|--:|")
+for b, v in BLOCKS.items():
+    w(f"| {b} | {dt(v)} | {pct(v / M.FUNDING_TOTAL)} |")
+w(f"| **Total** | **{dt(sum(BLOCKS.values()))}** | **100 %** |\n")
+w("<!-- chart:budget -->\n")
+w("### 9.2 Détail ligne par ligne\n")
+w("| Bloc | Poste | Quantité × prix | Montant | Base du prix | Indicateur lié |\n|:--|:--|--:|--:|:--|:--|")
+for b, poste, q, u, tot, src, kpi in BUD:
+    qty = f"{num(q)} × {dt(u, 2 if u % 1 else 0)}" if b not in ("Réserve",) and not poste.startswith("Charges") else "—"
+    w(f"| {b} | {poste} | {qty} | {dt(tot)} | {src} | {kpi} |")
+w(f"| **Total** | | | **{dt(sum(r[4] for r in BUD))}** | | |\n")
+w("### 9.3 Ce que chaque bloc doit produire (vérifiable)\n")
+w("| Bloc | Engagement de l'équipe (contrôlable) | Résultat mesuré dans la base (sans objectif inventé) |\n|:--|:--|:--|")
+w(f"| Équipe | Site maintenu, paiement en ligne livré, suivi hebdomadaire des chiffres | disponibilité, commandes, revenu |")
+w(f"| Terrain | 12 tournées d'ateliers ; passeports complets pour chaque créateur accompagné ; accord écrit de chacun | créateurs approuvés, champs de passeport remplis, photos validées |")
+w(f"| Produit | Hébergement commercial, IA, paiement en ligne | recherches, clics sur les suggestions ML, commandes payées en ligne |")
+w(f"| Visibilité | 2 salons, 10 hôtels partenaires, 2 000 cartes QR posées | vues, scans de passeports, clics « contacter », commandes |")
+w(f"| Administration | Société créée, marque déposée, comptes tenus, consentements vérifiés | documents disponibles sur demande |\n")
+w("### 9.4 Après les 12 mois\n")
+team_month = (1200 + 700) * (1 + M.CNSS_EMPLOYER)
+after = team_month + FIX1 + AI_EXAMPLE + 200
+w(f"Sans nouveau financement, garder la même équipe coûte environ **{dt(after)} par mois** (salaires et charges, hébergement, IA, "
+  f"expert-comptable). Avec la seule commission de {pct(M.COMMISSION)} sur des pièces à {dt(M.PRICE_MID)}, cela demande "
+  f"**{num(M.orders_to_cover(after) + 0.49)} commandes par mois**, ou un mélange de commandes, d'abonnements Atelier Pro "
+  f"({num(M.pro_to_cover(after) + 0.49)} abonnés couvriraient tout) et de services. Le pilote sert à mesurer lequel de ces revenus fonctionne ; "
+  "nous ne promettons pas d'atteindre ce seuil en 12 mois.")
+w(PB)
+
+# 10 --------------------------------------------------------------
+w("## 10. Plan du pilote (12 mois)\n")
 w("Des actions que l'équipe contrôle, chacune vérifiable dans la base ou par un document.\n")
 w("| Action | Aujourd'hui | Fin du pilote | Comment on le vérifie |\n|:--|:--|:--|:--|")
 w(f"| Accord écrit de chaque créateur présent | à collecter | {R['creators']} / {R['creators']} | captures d'écran datées (dossier consentement) |")
@@ -246,7 +285,7 @@ w("Nous ne fixons pas d'objectif de commandes : nous n'avons aucune donnée pour
 w(PB)
 
 # 10 --------------------------------------------------------------
-w("## 10. Indicateurs suivis\n")
+w("## 11. Indicateurs suivis\n")
 w("Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès le début du pilote.\n")
 w("| Indicateur | Définition | Valeur aujourd'hui | Mesuré |\n|:--|:--|--:|:--|")
 w(f"| Créateurs actifs | créateurs réels approuvés | {R['creators']} | oui |")
@@ -262,7 +301,7 @@ w(f"| Qualité des suggestions | part des 3 premières suggestions du même savo
 w(PB)
 
 # 11 --------------------------------------------------------------
-w("## 11. Risques\n")
+w("## 12. Risques\n")
 w("| Risque | Mesure |\n|:--|:--|")
 w("| Aucune commande malgré l'offre | Mesurer dès le pilote ; tester les cartes QR en boutique et les ventes aux hôtels |")
 w("| Ventes conclues hors plateforme | Abonnement et services plutôt que commission seule |")
@@ -273,7 +312,7 @@ w("| Hausse des prix des services | Coûts fixes faibles ; modèles ouverts et r
 w(PB)
 
 # 12 --------------------------------------------------------------
-w("## 12. Ce que nous ne promettons pas\n")
+w("## 13. Ce que nous ne promettons pas\n")
 w("- **Pas de prévision de chiffre d'affaires** sur plusieurs années : sans une seule vente, ce serait inventé.")
 w("- **Pas de taille de marché chiffrée** au-delà des chiffres publics cités.")
 w("- **Pas de valorisation.**")
@@ -282,7 +321,7 @@ w("- **Pas de taux de conversion ni de mise en contact** annoncé avant d'avoir 
 w(PB)
 
 # 13 --------------------------------------------------------------
-w("## 13. Annexe : méthode et sources\n")
+w("## 14. Annexe : méthode et sources\n")
 w("**Méthode.** baseline.py lit la base Supabase en lecture seule à chaque génération ; model.py contient les prix publics "
   "et les limites de jetons du code ; build_plan.py écrit ce document. Commandes nécessaires = coût mensuel ÷ (prix × 5 %).\n")
 w("**Sources.**\n")

@@ -30,6 +30,39 @@ PRICE_LOW, PRICE_HIGH = 90.0, 100.0             # prix des pièces réellement e
 PRICE_MID = (PRICE_LOW + PRICE_HIGH) / 2
 
 
+# --- besoin de financement : 50 000 DT sur 12 mois (pilote). Chaque ligne : (bloc, poste, quantité, prix unitaire, base du prix, KPI lié)
+FUNDING_TOTAL = 50000.0
+MONTHS = 12
+CNSS_EMPLOYER = 0.1657                          # charges patronales CNSS (taux courant, à confirmer avec l'expert-comptable)
+BUDGET = [
+    ("Équipe", "Responsable produit et technique (fondateur), salaire brut", MONTHS, 1200, "choix de l'équipe", "fonctions livrées, disponibilité du site"),
+    ("Équipe", "Chargé·e terrain et accompagnement des créateurs, mi-temps", MONTHS, 700, "choix de l'équipe", "créateurs accompagnés, passeports complétés"),
+    ("Équipe", "Charges sociales employeur (CNSS 16,57 %)", 1, (1200 + 700) * MONTHS * CNSS_EMPLOYER, "taux CNSS", "—"),
+    ("Produit", "Hébergement et base de données (Vercel Pro + Supabase Pro)", MONTHS, 45 * USD_TND, "prix publics, 1 $ = 3,05 DT", "disponibilité du site"),
+    ("Produit", "IA : 10 000 recherches + 200 photos par mois (plafond)", MONTHS, round((10000 * 0.0037 + 200 * 0.0085) + 0.49), "tarifs Groq, limites du code", "recherches enregistrées"),
+    ("Produit", "Nom de domaine .tn", 1, 60, "estimation", "—"),
+    ("Produit", "Intégration du paiement en ligne (ouverture, tests)", 1, 800, "estimation", "commandes payées en ligne"),
+    ("Terrain", "Déplacements vers les ateliers (régions)", 12, 150, "estimation", "créateurs rencontrés"),
+    ("Terrain", "Kit photo (lumière, fond, trépied)", 1, 900, "estimation", "photos validées"),
+    ("Terrain", "Impression des cartes QR pour les objets", 2000, 0.5, "estimation", "scans de passeports"),
+    ("Terrain", "Ordinateur portable pour le terrain", 1, 2500, "estimation", "—"),
+    ("Visibilité", "Publicité réseaux sociaux", MONTHS, 250, "budget choisi", "vues, recherches, commandes"),
+    ("Visibilité", "Stands dans 2 salons de l'artisanat", 2, 750, "estimation", "créateurs inscrits, commandes"),
+    ("Visibilité", "Présentoirs QR dans 10 hôtels partenaires", 10, 80, "estimation", "scans, commandes B2B"),
+    ("Administration", "Création de la société", 1, 1000, "estimation", "—"),
+    ("Administration", "Expert-comptable", MONTHS, 200, "estimation", "—"),
+    ("Administration", "Dépôt de la marque Astarte (INNORPI)", 1, 450, "estimation", "—"),
+    ("Administration", "Revue juridique : protection des données et consentements", 1, 500, "estimation", "accords écrits des créateurs"),
+]
+
+
+def budget_lines():
+    rows = [(b, p, q, u, q * u, src, kpi) for b, p, q, u, src, kpi in BUDGET]
+    reserve = FUNDING_TOTAL - sum(r[4] for r in rows)
+    rows.append(("Réserve", "Imprévus (hausse des prix, retards)", 1, reserve, reserve, "solde", "—"))
+    return rows
+
+
 def monthly_fixed(phase: int) -> float:
     """Coût fixe mensuel en TND (phase 0 = aujourd'hui, 1 = lancement commercial)."""
     return sum(s[2 + phase] for s in SERVICES) * USD_TND

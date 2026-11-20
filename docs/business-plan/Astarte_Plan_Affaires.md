@@ -25,6 +25,7 @@
 1. Modèle économique
 1. Coût du produit
 1. Seuil de rentabilité
+1. Besoin de financement : 50 000 DT
 1. Plan du pilote
 1. Indicateurs suivis
 1. Risques
@@ -39,11 +40,13 @@
 
 **La solution.** Une web application centrée sur l'artiste : portfolio, boutique, événements, recherche IA en français, anglais, arabe et derja qui ne recommande que des créateurs réels, un **Passeport Savoir-faire** avec QR code par objet, et des **suggestions par machine learning** entre clients et créateurs (59 % de suggestions pertinentes, × 4,25 par rapport au hasard).
 
-**Où nous en sommes (20 novembre 2026).** 11 créateurs réels en ligne, 9 produits (4 avec prix), 41 photos, 5 événements, 100 vues de profils, **0 commande**. Aucune vente n'a encore eu lieu : le paiement en ligne n'est pas branché.
+**Où nous en sommes (20 novembre 2026).** 11 créateurs réels en ligne, 9 produits (4 avec prix), 41 photos, 5 événements, 102 vues de profils, **0 commande**. Aucune vente n'a encore eu lieu : le paiement en ligne n'est pas branché.
 
 **Ce que coûte le produit.** 0 DT par mois aujourd'hui (offres gratuites). Environ **137 DT par mois** pour un lancement commercial (hébergement et base de données payants). Une recherche IA coûte au plus 0,004 DT.
 
 **Ce qu'il faut vendre.** À 5 % de commission sur une pièce de 95 DT, Astarte gagne 4,75 DT par commande : **29 commandes par mois** couvrent l'hébergement, ou 6 abonnés Atelier Pro. Couvrir un salaire demande beaucoup plus (section 8).
+
+**Ce que nous demandons.** 50 000 DT pour 12 mois de pilote : équipe 53 %, terrain 12 %, visibilité 11 %, administration 9 %, produit 6 %, réserve 9 %. Détail ligne par ligne et indicateurs liés en section 9.
 
 <!-- kpi-cards -->
 
@@ -124,11 +127,11 @@ Valeurs lues dans la base de données le 20 novembre 2026. Les profils de démon
 | Produits avec un prix affiché | 4 / 9 | table des produits |
 | Photos dans les portfolios | 41 | table des images |
 | Événements publiés | 5 | table des événements |
-| Vues de profils de créateurs | 100 | compteur incrémenté à chaque visite |
+| Vues de profils de créateurs | 102 | compteur incrémenté à chaque visite |
 | Scans de passeports QR | 1 | compteur incrémenté à chaque scan |
 | Champs de passeport remplis | 9 / 63 (14 %) | table des produits |
 | Commandes | **0** | table des commandes |
-| Recherches enregistrées (depuis le 20 nov.) | 0 | table search_events |
+| Recherches enregistrées (depuis le 20 nov.) | 2 | table search_events |
 | Vues, clics « contacter », clics sur suggestions (depuis le 20 nov.) | 0 / 0 / 0 | table interactions |
 | Pertinence des suggestions ML (3 premières, même savoir-faire) | 59 % (× 4,25 vs hasard) | évaluation sur la base |
 
@@ -231,7 +234,66 @@ Combien de ventes faut-il pour couvrir chaque niveau de coût mensuel ? Calcul :
 
 <div style="page-break-after: always;"></div>
 
-## 9. Plan du pilote (6 mois)
+## 9. Besoin de financement : 50 000 DT
+
+**50 000 DT pour 12 mois de pilote**, soit 4 167 DT par mois. Chaque dépense est liée à un indicateur que la base de données mesure. Les prix marqués « estimation » seront remplacés par des devis.
+
+### 9.1 Répartition par bloc
+
+| Bloc | Montant | Part |
+|:--|--:|--:|
+| Équipe | 26 578 DT | 53 % |
+| Produit | 2 975 DT | 6 % |
+| Terrain | 6 200 DT | 12 % |
+| Visibilité | 5 300 DT | 11 % |
+| Administration | 4 350 DT | 9 % |
+| Réserve | 4 597 DT | 9 % |
+| **Total** | **50 000 DT** | **100 %** |
+
+<!-- chart:budget -->
+
+### 9.2 Détail ligne par ligne
+
+| Bloc | Poste | Quantité × prix | Montant | Base du prix | Indicateur lié |
+|:--|:--|--:|--:|:--|:--|
+| Équipe | Responsable produit et technique (fondateur), salaire brut | 12 × 1 200 DT | 14 400 DT | choix de l'équipe | fonctions livrées, disponibilité du site |
+| Équipe | Chargé·e terrain et accompagnement des créateurs, mi-temps | 12 × 700 DT | 8 400 DT | choix de l'équipe | créateurs accompagnés, passeports complétés |
+| Équipe | Charges sociales employeur (CNSS 16,57 %) | — | 3 778 DT | taux CNSS | — |
+| Produit | Hébergement et base de données (Vercel Pro + Supabase Pro) | 12 × 137,25 DT | 1 647 DT | prix publics, 1 $ = 3,05 DT | disponibilité du site |
+| Produit | IA : 10 000 recherches + 200 photos par mois (plafond) | 12 × 39 DT | 468 DT | tarifs Groq, limites du code | recherches enregistrées |
+| Produit | Nom de domaine .tn | 1 × 60 DT | 60 DT | estimation | — |
+| Produit | Intégration du paiement en ligne (ouverture, tests) | 1 × 800 DT | 800 DT | estimation | commandes payées en ligne |
+| Terrain | Déplacements vers les ateliers (régions) | 12 × 150 DT | 1 800 DT | estimation | créateurs rencontrés |
+| Terrain | Kit photo (lumière, fond, trépied) | 1 × 900 DT | 900 DT | estimation | photos validées |
+| Terrain | Impression des cartes QR pour les objets | 2 000 × 0,50 DT | 1 000 DT | estimation | scans de passeports |
+| Terrain | Ordinateur portable pour le terrain | 1 × 2 500 DT | 2 500 DT | estimation | — |
+| Visibilité | Publicité réseaux sociaux | 12 × 250 DT | 3 000 DT | budget choisi | vues, recherches, commandes |
+| Visibilité | Stands dans 2 salons de l'artisanat | 2 × 750 DT | 1 500 DT | estimation | créateurs inscrits, commandes |
+| Visibilité | Présentoirs QR dans 10 hôtels partenaires | 10 × 80 DT | 800 DT | estimation | scans, commandes B2B |
+| Administration | Création de la société | 1 × 1 000 DT | 1 000 DT | estimation | — |
+| Administration | Expert-comptable | 12 × 200 DT | 2 400 DT | estimation | — |
+| Administration | Dépôt de la marque Astarte (INNORPI) | 1 × 450 DT | 450 DT | estimation | — |
+| Administration | Revue juridique : protection des données et consentements | 1 × 500 DT | 500 DT | estimation | accords écrits des créateurs |
+| Réserve | Imprévus (hausse des prix, retards) | — | 4 597 DT | solde | — |
+| **Total** | | | **50 000 DT** | | |
+
+### 9.3 Ce que chaque bloc doit produire (vérifiable)
+
+| Bloc | Engagement de l'équipe (contrôlable) | Résultat mesuré dans la base (sans objectif inventé) |
+|:--|:--|:--|
+| Équipe | Site maintenu, paiement en ligne livré, suivi hebdomadaire des chiffres | disponibilité, commandes, revenu |
+| Terrain | 12 tournées d'ateliers ; passeports complets pour chaque créateur accompagné ; accord écrit de chacun | créateurs approuvés, champs de passeport remplis, photos validées |
+| Produit | Hébergement commercial, IA, paiement en ligne | recherches, clics sur les suggestions ML, commandes payées en ligne |
+| Visibilité | 2 salons, 10 hôtels partenaires, 2 000 cartes QR posées | vues, scans de passeports, clics « contacter », commandes |
+| Administration | Société créée, marque déposée, comptes tenus, consentements vérifiés | documents disponibles sur demande |
+
+### 9.4 Après les 12 mois
+
+Sans nouveau financement, garder la même équipe coûte environ **2 590 DT par mois** (salaires et charges, hébergement, IA, expert-comptable). Avec la seule commission de 5 % sur des pièces à 95 DT, cela demande **546 commandes par mois**, ou un mélange de commandes, d'abonnements Atelier Pro (104 abonnés couvriraient tout) et de services. Le pilote sert à mesurer lequel de ces revenus fonctionne ; nous ne promettons pas d'atteindre ce seuil en 12 mois.
+
+<div style="page-break-after: always;"></div>
+
+## 10. Plan du pilote (12 mois)
 
 Des actions que l'équipe contrôle, chacune vérifiable dans la base ou par un document.
 
@@ -249,7 +311,7 @@ Nous ne fixons pas d'objectif de commandes : nous n'avons aucune donnée pour le
 
 <div style="page-break-after: always;"></div>
 
-## 10. Indicateurs suivis
+## 11. Indicateurs suivis
 
 Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès le début du pilote.
 
@@ -258,7 +320,7 @@ Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès l
 | Créateurs actifs | créateurs réels approuvés | 11 | oui |
 | Offre en vente | produits publiés avec prix | 4 | oui |
 | Complétude des passeports | champs remplis ÷ champs possibles | 14 % | oui |
-| Visibilité | vues des profils de créateurs | 100 | oui |
+| Visibilité | vues des profils de créateurs | 102 | oui |
 | Usage des passeports | scans de QR codes | 1 | oui |
 | Ventes | nombre et montant des commandes | 0 | oui |
 | Mise en contact | clics « contacter » ÷ vues de profil | depuis le 20 nov. | oui |
@@ -268,7 +330,7 @@ Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès l
 
 <div style="page-break-after: always;"></div>
 
-## 11. Risques
+## 12. Risques
 
 | Risque | Mesure |
 |:--|:--|
@@ -281,7 +343,7 @@ Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès l
 
 <div style="page-break-after: always;"></div>
 
-## 12. Ce que nous ne promettons pas
+## 13. Ce que nous ne promettons pas
 
 - **Pas de prévision de chiffre d'affaires** sur plusieurs années : sans une seule vente, ce serait inventé.
 - **Pas de taille de marché chiffrée** au-delà des chiffres publics cités.
@@ -291,7 +353,7 @@ Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès l
 
 <div style="page-break-after: always;"></div>
 
-## 13. Annexe : méthode et sources
+## 14. Annexe : méthode et sources
 
 **Méthode.** baseline.py lit la base Supabase en lecture seule à chaque génération ; model.py contient les prix publics et les limites de jetons du code ; build_plan.py écrit ce document. Commandes nécessaires = coût mensuel ÷ (prix × 5 %).
 

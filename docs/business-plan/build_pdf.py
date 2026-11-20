@@ -149,13 +149,29 @@ def photo_strip() -> str:
     return f'<div class="photos">{items}</div><p class="ph-note">Photos fournies par les créateurs présents sur Astarte.</p>'
 
 
-CHARTS = {"breakeven": chart_breakeven, "positioning": chart_positioning}
+def chart_budget() -> str:
+    blocks = {}
+    for r in M.budget_lines():
+        blocks[r[0]] = blocks.get(r[0], 0) + r[4]
+    W, H, l, r_, t, b = 680, 40 + 34 * len(blocks), 130, 110, 24, 10
+    hi = max(blocks.values())
+    body = f'<text x="{l}" y="14" class="an">Répartition des {P.dt(M.FUNDING_TOTAL)} sur {M.MONTHS} mois</text>'
+    for i, (k, v) in enumerate(blocks.items()):
+        y = t + i * 34
+        wv = (W - l - r_) * v / hi
+        body += (f'<text x="{l - 10}" y="{y + 20}" text-anchor="end" class="lg">{k}</text>'
+                 f'<rect x="{l}" y="{y + 6}" width="{wv:.1f}" height="20" rx="2" fill="{ORANGE if i == 0 else INK}"/>'
+                 f'<text x="{l + wv + 6:.1f}" y="{y + 20}" class="vl">{P.dt(v)} · {P.pct(v / M.FUNDING_TOTAL)}</text>')
+    return svg(W, H, body, "Montants calculés dans model.py ; total exact 50 000 DT.")
+
+
+CHARTS = {"breakeven": chart_breakeven, "positioning": chart_positioning, "budget": chart_budget}
 
 
 # ------------------------------------------------------------------ document
 def cover(logo: str) -> str:
     stats = [(P.num(R["creators"]), "créateurs réels en ligne"), (P.num(R["products"]), "produits en vente"),
-             (P.dt(P.FIX1), "coût mensuel au lancement"), (P.num(M.orders_to_cover(P.FIX1) + 0.49), "commandes / mois pour le couvrir")]
+             (P.pct(R["ml_p3"]), "suggestions ML pertinentes"), (P.dt(M.FUNDING_TOTAL), f"demandés pour {M.MONTHS} mois")]
     hero = photo(PHOTOS[0][0], 1400, 210 / 120)
     return f"""
 <section class="cover">
