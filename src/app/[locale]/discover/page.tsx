@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { suggestEventAction } from "@/app/actions/events";
+import { DiscoveryPanel } from "@/components/discovery/DiscoveryPanel";
 import { Field, Select, Submit, TextArea } from "@/components/ui/form";
 import { CategoryGlyph } from "@/components/visual/CategoryGlyph";
 import { getSessionUser } from "@/lib/auth/session";
@@ -46,8 +47,10 @@ export default async function DiscoverPage({ params, searchParams }: { params: P
             }));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-8 sm:px-6">
-      <h1 className="font-display text-4xl sm:text-5xl">{t.nav.discover}</h1>
+    <>
+    <DiscoveryPanel locale={locale} t={{ hero: t.hero, results: t.results, nav: t.nav }} />
+    <div className="mx-auto mt-16 max-w-6xl px-4 pt-8 sm:px-6">
+      <h1 className="font-display text-4xl sm:text-5xl">{pick(locale, { en: "Browse everything", fr: "Tout parcourir", ar: "تصفح الكل" })}</h1>
       <nav className="mt-8 flex gap-1 overflow-x-auto border-b border-line" aria-label={t.common.filters}>
         {tabs.map((x) => (
           <Link
@@ -111,5 +114,6 @@ export default async function DiscoverPage({ params, searchParams }: { params: P
         </section>
       )}
     </div>
+    </>
   );
 }
