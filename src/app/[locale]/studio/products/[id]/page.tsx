@@ -80,6 +80,21 @@ export default async function ProductEditor({ params, searchParams }: { params: 
           </div>
         </fieldset>
         <Field label="Delivery note (optional)" name="deliveryNote" defaultValue={v("delivery_note")} />
+        <fieldset className="space-y-4 rounded-[var(--radius-card)] border border-orange/40 bg-orange/5 p-4">
+          <legend className="px-1 text-sm font-medium">Savoir-faire passport (optional; shown publicly with a QR code)</legend>
+          <p className="text-xs text-muted">Only declare what is true. Empty fields appear as “not provided”, never guessed.</p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Technique" name="technique" defaultValue={v("technique")} placeholder="e.g. hand-set stone tesserae" />
+            <Field label="Made in (city)" name="originCity" defaultValue={v("origin_city")} />
+            <Field label="Time to make (hours)" name="hoursToMake" type="number" min={0} step="0.5" defaultValue={v("hours_to_make")} />
+            <Field label="Care & repair" name="care" defaultValue={v("care_instructions")} />
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[["localMaterials", "local_materials", "Materials from Tunisia"], ["recycledMaterials", "recycled_materials", "Recycled / reused materials"], ["repairable", "repairable", "I offer repair"]].map(([name, col, label]) => (
+              <Select key={name} label={label} name={name} defaultValue={product?.[col] == null ? "unknown" : product[col] ? "yes" : "no"} options={[{ value: "unknown", label: "Not declared" }, { value: "yes", label: "Yes" }, { value: "no", label: "No" }]} />
+            ))}
+          </div>
+        </fieldset>
         <Select label="Status" name="status" defaultValue={(v("status") as string) ?? "published"} options={[{ value: "published", label: "Published (visible once your profile is approved)" }, { value: "draft", label: "Draft (only you)" }, { value: "archived", label: "Archived" }]} />
         <Submit>{isNew ? "Create work" : "Save changes"}</Submit>
       </form>

@@ -30,6 +30,8 @@ const list = (v: FormDataEntryValue | null, max = 12) =>
     .filter(Boolean)
     .slice(0, max);
 
+const triState = (v: FormDataEntryValue | null) => (v === "yes" ? true : v === "no" ? false : null);
+
 const bad = (path: string, msg: string): never => redirect(`${path}?error=${encodeURIComponent(msg)}`);
 
 // ---------- profile ----------
@@ -125,6 +127,14 @@ export async function saveProductAction(form: FormData) {
     materials: list(form.get("materials"), 10),
     delivery_options: delivery.length ? delivery : ["pickup"],
     delivery_note: String(form.get("deliveryNote") ?? "").slice(0, 300) || null,
+    // Passeport Savoir-faire (artisan-declared; "unknown" stays null)
+    technique: String(form.get("technique") ?? "").trim().slice(0, 300) || null,
+    origin_city: String(form.get("originCity") ?? "").trim().slice(0, 80) || null,
+    hours_to_make: Number(form.get("hoursToMake")) > 0 ? Math.min(9999, Number(form.get("hoursToMake"))) : null,
+    care_instructions: String(form.get("care") ?? "").trim().slice(0, 500) || null,
+    local_materials: triState(form.get("localMaterials")),
+    recycled_materials: triState(form.get("recycledMaterials")),
+    repairable: triState(form.get("repairable")),
     status: d.status,
   };
   const db = await supabaseServer();

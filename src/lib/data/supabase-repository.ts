@@ -55,6 +55,15 @@ export function toProduct(r: any, images: Map<string, string[]>): Product {
     featured: r.featured,
     images: images.get(r.id) ?? [],
     createdAt: r.created_at,
+    passport: {
+      technique: r.technique ?? null,
+      originCity: r.origin_city ?? null,
+      hoursToMake: r.hours_to_make != null ? Number(r.hours_to_make) : null,
+      localMaterials: r.local_materials ?? null,
+      recycledMaterials: r.recycled_materials ?? null,
+      repairable: r.repairable ?? null,
+      care: r.care_instructions ?? null,
+    },
   };
 }
 

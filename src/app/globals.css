@@ -101,6 +101,16 @@ body > header {
   }
 }
 
+/* Printing a passport QR card: only the card */
+@media print {
+  body > header,
+  body > footer,
+  body > [role="note"],
+  body::before {
+    display: none !important;
+  }
+}
+
 @keyframes drift {
   0%,
   100% {

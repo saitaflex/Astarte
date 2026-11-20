@@ -74,6 +74,18 @@ export interface Product {
   featured?: boolean;
   images?: string[];
   createdAt?: string;
+  passport?: ProductPassport;
+}
+
+/** Passeport Savoir-faire: artisan-declared facts. null = not provided (never guessed). */
+export interface ProductPassport {
+  technique: string | null;
+  originCity: string | null;
+  hoursToMake: number | null;
+  localMaterials: boolean | null;
+  recycledMaterials: boolean | null;
+  repairable: boolean | null;
+  care: string | null;
 }
 
 export interface ArtistPost {

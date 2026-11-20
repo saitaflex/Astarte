@@ -64,25 +64,25 @@ const ARTISTS = [
     ],
     products: [
       {
-        title: "Mosaic panel: doves on a blossoming branch",
+        title: "Mosaic panel: doves on a blossoming branch", technique: "Stone mosaic with marble doves carved in relief",
         description: "Framed stone mosaic panel. A branch of small brown tesserae with white flowers on a green ground, with two doves carved in white marble set in relief.",
         price: 100, stock: 1, materials: ["natural stone", "marble"], categories: ["mosaic", "traditional-crafts"], delivery: ["pickup", "local_delivery"],
         image: `${FS}/WhatsApp Image 2026-11-19 at 5.06.23 PM.jpeg`, featured: true,
       },
       {
-        title: "Arched mosaic panel with hoopoe and stone basin",
+        title: "Arched mosaic panel with hoopoe and stone basin", technique: "Stone and glass mosaic with a carved stone basin",
         description: "Arched mosaic panel in warm yellow stone with a hoopoe among branches, a floral border and a small carved stone basin in relief.",
         price: 100, stock: 1, materials: ["natural stone", "glass tesserae"], categories: ["mosaic", "traditional-crafts"], delivery: ["pickup", "local_delivery"],
         image: `${FS}/WhatsApp Image 2026-11-19 at 5.06.53 PM.jpeg`, featured: true,
       },
       {
-        title: "Mosaic coasters with olive branch (gift box)",
+        title: "Mosaic coasters with olive branch (gift box)", technique: "Hand-cut stone mosaic",
         description: "Round stone mosaic coasters with an olive-branch motif, presented in a gift box.",
         price: 90, stock: 5, materials: ["natural stone", "glass"], categories: ["mosaic"], delivery: ["pickup", "local_delivery", "shipping"],
         image: `${FS}/plates.jpeg`,
       },
       {
-        title: "Round palm-leaf mosaic side table",
+        title: "Round palm-leaf mosaic side table", technique: "Glass tesserae set on a stone mosaic top",
         description: "Round side table with a palm leaf in green glass tesserae on a cream stone mosaic top, on slim metal legs.",
         price: 90, stock: 2, materials: ["stone", "glass tesserae", "metal"], categories: ["mosaic", "furniture-design"], delivery: ["pickup", "local_delivery"],
         image: `${FS}/tables.jpeg`, featured: true,
@@ -147,7 +147,7 @@ const ARTISTS = [
     ],
     products: [
       {
-        title: "Silver parrot piece", description: "Handmade silver parrot with engraved feathers and a long tail. Contact the artist for size, finish and price.",
+        title: "Silver parrot piece", technique: "Hand-worked silver", description: "Handmade silver parrot with engraved feathers and a long tail. Contact the artist for size, finish and price.",
         price: null, stock: null, availability: "made_to_order", materials: ["silver"], categories: ["jewelry", "metalwork"], delivery: ["pickup", "shipping"],
         image: "Issam majdoub/design.jpeg",
       },
@@ -165,9 +165,9 @@ const ARTISTS = [
       ["maryem fake jewls bags/maryem face.jpeg", "Portrait of Maryem"],
     ],
     products: [
-      { title: "Black beaded bag with feathers", description: "Black beaded handbag trimmed with feathers, with a gold chain strap.", price: null, stock: null, availability: "made_to_order", materials: ["beads", "feathers", "metal chain"], categories: ["fashion"], delivery: ["pickup", "local_delivery", "shipping"], image: "maryem fake jewls bags/bag with feathure.jpeg", featured: true },
-      { title: "Black beaded mini bag", description: "Structured black beaded mini bag with a flap and a chain shoulder strap.", price: null, stock: null, availability: "made_to_order", materials: ["beads", "metal chain"], categories: ["fashion"], delivery: ["pickup", "local_delivery", "shipping"], image: "maryem fake jewls bags/black bag.jpeg" },
-      { title: "Gold beaded mini bag", description: "Small gold beaded bag with a beaded top handle.", price: null, stock: null, availability: "made_to_order", materials: ["beads"], categories: ["fashion"], delivery: ["pickup", "local_delivery", "shipping"], image: "maryem fake jewls bags/yellow bag.jpeg" },
+      { title: "Black beaded bag with feathers", technique: "Hand-beaded", description: "Black beaded handbag trimmed with feathers, with a gold chain strap.", price: null, stock: null, availability: "made_to_order", materials: ["beads", "feathers", "metal chain"], categories: ["fashion"], delivery: ["pickup", "local_delivery", "shipping"], image: "maryem fake jewls bags/bag with feathure.jpeg", featured: true },
+      { title: "Black beaded mini bag", technique: "Hand-beaded", description: "Structured black beaded mini bag with a flap and a chain shoulder strap.", price: null, stock: null, availability: "made_to_order", materials: ["beads", "metal chain"], categories: ["fashion"], delivery: ["pickup", "local_delivery", "shipping"], image: "maryem fake jewls bags/black bag.jpeg" },
+      { title: "Gold beaded mini bag", technique: "Hand-beaded", description: "Small gold beaded bag with a beaded top handle.", price: null, stock: null, availability: "made_to_order", materials: ["beads"], categories: ["fashion"], delivery: ["pickup", "local_delivery", "shipping"], image: "maryem fake jewls bags/yellow bag.jpeg" },
     ],
   },
   {
@@ -181,7 +181,7 @@ const ARTISTS = [
       ["ricordami by darahim/WhatsApp Image 2026-11-19 at 11.16.55 PM.jpeg", "Pink cup with preserved flowers", 270],
     ],
     products: [
-      { title: "Preserved-flower keepsake cup", description: "Clear cup filled with preserved flowers in red, pink and lilac. A keepsake gift. Contact for colours and price.", price: null, stock: null, availability: "made_to_order", materials: ["preserved flowers"], categories: ["interior-design"], delivery: ["pickup", "local_delivery"], image: "ricordami by darahim/product.jpeg", featured: true },
+      { title: "Preserved-flower keepsake cup", technique: "Preserved flowers arranged in a clear cup", description: "Clear cup filled with preserved flowers in red, pink and lilac. A keepsake gift. Contact for colours and price.", price: null, stock: null, availability: "made_to_order", materials: ["preserved flowers"], categories: ["interior-design"], delivery: ["pickup", "local_delivery"], image: "ricordami by darahim/product.jpeg", featured: true },
     ],
   },
 ];
@@ -260,7 +260,7 @@ for (const a of ARTISTS) {
       .from("products")
       .insert({
         artist_id: artistId, title: p.title, description: p.description, price_amount: p.price, currency: "TND",
-        availability: p.availability ?? "in_stock", stock: p.stock, materials: p.materials, delivery_options: p.delivery, status: "published", featured: Boolean(p.featured),
+        availability: p.availability ?? "in_stock", stock: p.stock, materials: p.materials, delivery_options: p.delivery, status: "published", featured: Boolean(p.featured), technique: p.technique ?? null,
       })
       .select("id")
       .single();

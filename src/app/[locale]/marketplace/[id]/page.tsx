@@ -106,6 +106,10 @@ export default async function ProductPage({ params, searchParams }: { params: Pa
           </div>
           <p className="mt-3 text-xs leading-relaxed text-muted">{m.noPayment}</p>
           <div className="mt-4"><ShareButtons title={p.title} text={`${p.title} by ${artist.displayName} on Astarte`} /></div>
+          <Link href={`/${locale}/passport/${p.id}`} className="mt-4 flex items-center gap-3 rounded-[var(--radius-card)] border border-orange/40 bg-orange/5 px-4 py-3 text-sm transition hover:bg-orange/10">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-orange text-charcoal" aria-hidden="true">♻</span>
+            <span><strong className="font-medium">{locale === "fr" ? "Passeport Savoir-faire" : locale === "ar" ? "جواز الحِرفة" : "Savoir-faire passport"}</strong><br /><span className="text-muted">{locale === "fr" ? "Qui l'a fait, comment, avec quoi" : locale === "ar" ? "من صنعه، كيف، وبأي مواد" : "Who made it, how, and with what"}</span></span>
+          </Link>
 
           <p className="mt-8 whitespace-pre-line leading-relaxed text-charcoal/85">{p.description}</p>
 
