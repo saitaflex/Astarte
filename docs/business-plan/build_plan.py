@@ -73,7 +73,8 @@ w("**Le problème.** Les artistes et artisans tunisiens ont peu de clients direc
   "intermédiaires, et trouvent difficilement du coaching ou du marketing. Les acheteurs ne savent pas où trouver un "
   "créateur réel, ni ce qui distingue une pièce faite main.\n")
 w("**La solution.** Une web application centrée sur l'artiste : portfolio, boutique, événements, recherche IA en français, "
-  "anglais, arabe et derja qui ne recommande que des créateurs réels, et un **Passeport Savoir-faire** avec QR code par objet.\n")
+  "anglais, arabe et derja qui ne recommande que des créateurs réels, un **Passeport Savoir-faire** avec QR code par objet, et des "
+  f"**suggestions par machine learning** entre clients et créateurs ({pct(R['ml_p3'])} de suggestions pertinentes, × {num(R['ml_lift'], 2)} par rapport au hasard).\n")
 w(f"**Où nous en sommes ({TODAY}).** {R['creators']} créateurs réels en ligne, {R['products']} produits ({R['priced']} avec prix), "
   f"{R['photos']} photos, {R['events']} événements, {R['profile_views']} vues de profils, **{R['orders']} commande**. "
   "Aucune vente n'a encore eu lieu : le paiement en ligne n'est pas branché.\n")
@@ -114,8 +115,27 @@ w("| Indice de détection d'images IA (un humain décide) | **En ligne** pour l'
 w("| Point Merci (récompenses clients) | **En ligne**, pas encore utilisé par de vrais clients |")
 w("| Coaching, incubation, abonnement Atelier Pro | **Proposés**, pas encore vendus |")
 w("| Paiement en ligne | **À faire** |\n")
-w(f"Contrôles qualité : 15 tests unitaires et 23 contrôles de parcours passent ; 14 recherches de référence sur 14 donnent le bon "
-  "premier résultat sur le site en ligne.")
+w(f"Contrôles qualité : 19 tests unitaires et 23 contrôles de parcours passent ; 14 recherches de référence sur 14 donnent le bon "
+  "premier résultat sur le site en ligne.\n")
+w("### Suggestions par machine learning (clients ↔ artistes)\n")
+w("Le machine learning suggère les œuvres et les créateurs aux clients, et montre aux créateurs les clients qui les cherchent.\n")
+w("| Pour qui | Ce que voit l'utilisateur | État |\n|:--|:--|:--|")
+w("| **Client** | « Vous aimerez aussi » sous chaque œuvre, avec la raison du choix | **En ligne** |")
+w("| **Client** | « Créateurs proches » sur chaque profil, avec un pourcentage de proximité | **En ligne** |")
+w("| **Client** | « Pour vous » sur la boutique, d'après les œuvres regardées | **En ligne** |")
+w("| **Créateur** | Dans son atelier : recherches réelles qui l'ont fait apparaître, vues, clics sur les suggestions, demandes de contact | **En ligne** |\n")
+w("**Comment ça marche.** Chaque œuvre reçoit une empreinte numérique (modèle multilingue MiniLM, français, anglais, arabe) calculée "
+  "à partir de son titre, sa description, sa technique, ses matériaux et la description automatique de ses photos. Le classement "
+  "combine quatre signaux : ressemblance du contenu (55 %), œuvres vues ensemble par d'autres visiteurs (25 %), popularité (10 %) "
+  "et même savoir-faire ou technique (10 %), puis une étape de diversité évite qu'un seul créateur remplisse la liste.\n")
+w("| Mesure de qualité (hors ligne) | Valeur |\n|:--|--:|")
+w(f"| Œuvres évaluées | {R['ml_products']} |")
+w(f"| Suggestions (3 premières) du même savoir-faire | **{pct(R['ml_p3'])}** |")
+w(f"| Même mesure avec des suggestions au hasard | {pct(R['ml_random'])} |")
+w(f"| Gain par rapport au hasard | **× {num(R['ml_lift'], 2)}** |")
+w(f"| Œuvres qui apparaissent au moins une fois en suggestion | {pct(R['ml_coverage'])} |\n")
+w(f"Mesure recalculée sur la base réelle à chaque génération du document ({TODAY}). Elle mesure la pertinence du savoir-faire, "
+  "pas les ventes : le taux de clic sur les suggestions sera publié quand il y aura assez de visites (enregistrement depuis le 20 novembre 2026).")
 w(PB)
 
 # 4 ---------------------------------------------------------------
@@ -131,7 +151,10 @@ w(f"| Événements publiés | {R['events']} | table des événements |")
 w(f"| Vues de profils de créateurs | {R['profile_views']} | compteur incrémenté à chaque visite |")
 w(f"| Scans de passeports QR | {R['passport_scans']} | compteur incrémenté à chaque scan |")
 w(f"| Champs de passeport remplis | {R['passport_filled']} / {R['passport_total']} ({pct(PASS_RATE)}) | table des produits |")
-w(f"| Commandes | **{R['orders']}** | table des commandes |\n")
+w(f"| Commandes | **{R['orders']}** | table des commandes |")
+w(f"| Recherches enregistrées (depuis le 20 nov.) | {R['searches']} | table search_events |")
+w(f"| Vues, clics « contacter », clics sur suggestions (depuis le 20 nov.) | {R['tracked_views']} / {R['contact_clicks']} / {R['reco_clicks']} | table interactions |")
+w(f"| Pertinence des suggestions ML (3 premières, même savoir-faire) | {pct(R['ml_p3'])} (× {num(R['ml_lift'], 2)} vs hasard) | évaluation sur la base |\n")
 w("**Mesuré depuis le 20 novembre 2026.** Les vues des œuvres, les clics « contacter », les clics sur les suggestions et les "
   "recherches sont enregistrés depuis cette date (anonymement). Ils partent de zéro ; ils seront publiés dès qu'il y aura des données.\n")
 w("**Lecture honnête.** Les vues de profils incluent les visites de l'équipe et des tests. Le seul chiffre de demande qui "
@@ -184,7 +207,8 @@ w("### 7.2 Coûts à l'usage\n")
 w("| Action | Coût unitaire | Calcul |\n|:--|--:|:--|")
 w(f"| Une recherche IA | ≤ {dt(SEARCH, 4)} | plafond : {num(M.SEARCH_IN_MAX)} jetons en entrée et {num(M.SEARCH_OUT_MAX)} en sortie (limites du code), gpt-oss-20b |")
 w(f"| Description automatique d'une photo | ≈ {dt(PHOTO, 4)} | {num(M.PHOTO_IN)} jetons en entrée, {num(M.PHOTO_OUT)} en sortie (estimation), Qwen 3.8 |")
-w(f"| 10 000 recherches + 200 photos par mois | ≈ {dt(AI_EXAMPLE)} | exemple, au plafond |\n")
+w(f"| 10 000 recherches + 200 photos par mois | ≈ {dt(AI_EXAMPLE)} | exemple, au plafond |")
+w("| Suggestions ML (empreintes + classement) | 0 DT | modèle exécuté localement, recherche vectorielle incluse dans Supabase |\n")
 w("### 7.3 Coûts non inclus\n")
 w("- **Salaires :** l'équipe travaille aujourd'hui sans rémunération ; la section 8 montre ce qu'un salaire impose comme volume.")
 w("- **Paiement en ligne :** frais du prestataire à négocier quand le paiement sera branché.")
@@ -234,6 +258,7 @@ w(f"| Ventes | nombre et montant des commandes | {R['orders']} | oui |")
 w("| Mise en contact | clics « contacter » ÷ vues de profil | depuis le 20 nov. | oui |")
 w("| Suggestions ML | clics sur les suggestions ÷ suggestions affichées ; précision@3 hors ligne 58,7 % (×4,25 vs hasard) | depuis le 20 nov. | oui |")
 w("| Revenu Astarte | commissions + abonnements + services | 0 DT | oui |")
+w(f"| Qualité des suggestions | part des 3 premières suggestions du même savoir-faire | {pct(R['ml_p3'])} | oui |")
 w(PB)
 
 # 11 --------------------------------------------------------------

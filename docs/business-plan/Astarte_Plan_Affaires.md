@@ -37,7 +37,7 @@
 
 **Le problème.** Les artistes et artisans tunisiens ont peu de clients directs, dépendent des galeries et des intermédiaires, et trouvent difficilement du coaching ou du marketing. Les acheteurs ne savent pas où trouver un créateur réel, ni ce qui distingue une pièce faite main.
 
-**La solution.** Une web application centrée sur l'artiste : portfolio, boutique, événements, recherche IA en français, anglais, arabe et derja qui ne recommande que des créateurs réels, et un **Passeport Savoir-faire** avec QR code par objet.
+**La solution.** Une web application centrée sur l'artiste : portfolio, boutique, événements, recherche IA en français, anglais, arabe et derja qui ne recommande que des créateurs réels, un **Passeport Savoir-faire** avec QR code par objet, et des **suggestions par machine learning** entre clients et créateurs (59 % de suggestions pertinentes, × 4,25 par rapport au hasard).
 
 **Où nous en sommes (20 novembre 2026).** 11 créateurs réels en ligne, 9 produits (4 avec prix), 41 photos, 5 événements, 100 vues de profils, **0 commande**. Aucune vente n'a encore eu lieu : le paiement en ligne n'est pas branché.
 
@@ -85,7 +85,30 @@ Les trois obstacles décrits par les créateurs (deck Astarte) :
 | Coaching, incubation, abonnement Atelier Pro | **Proposés**, pas encore vendus |
 | Paiement en ligne | **À faire** |
 
-Contrôles qualité : 15 tests unitaires et 23 contrôles de parcours passent ; 14 recherches de référence sur 14 donnent le bon premier résultat sur le site en ligne.
+Contrôles qualité : 19 tests unitaires et 23 contrôles de parcours passent ; 14 recherches de référence sur 14 donnent le bon premier résultat sur le site en ligne.
+
+### Suggestions par machine learning (clients ↔ artistes)
+
+Le machine learning suggère les œuvres et les créateurs aux clients, et montre aux créateurs les clients qui les cherchent.
+
+| Pour qui | Ce que voit l'utilisateur | État |
+|:--|:--|:--|
+| **Client** | « Vous aimerez aussi » sous chaque œuvre, avec la raison du choix | **En ligne** |
+| **Client** | « Créateurs proches » sur chaque profil, avec un pourcentage de proximité | **En ligne** |
+| **Client** | « Pour vous » sur la boutique, d'après les œuvres regardées | **En ligne** |
+| **Créateur** | Dans son atelier : recherches réelles qui l'ont fait apparaître, vues, clics sur les suggestions, demandes de contact | **En ligne** |
+
+**Comment ça marche.** Chaque œuvre reçoit une empreinte numérique (modèle multilingue MiniLM, français, anglais, arabe) calculée à partir de son titre, sa description, sa technique, ses matériaux et la description automatique de ses photos. Le classement combine quatre signaux : ressemblance du contenu (55 %), œuvres vues ensemble par d'autres visiteurs (25 %), popularité (10 %) et même savoir-faire ou technique (10 %), puis une étape de diversité évite qu'un seul créateur remplisse la liste.
+
+| Mesure de qualité (hors ligne) | Valeur |
+|:--|--:|
+| Œuvres évaluées | 21 |
+| Suggestions (3 premières) du même savoir-faire | **59 %** |
+| Même mesure avec des suggestions au hasard | 14 % |
+| Gain par rapport au hasard | **× 4,25** |
+| Œuvres qui apparaissent au moins une fois en suggestion | 95 % |
+
+Mesure recalculée sur la base réelle à chaque génération du document (20 novembre 2026). Elle mesure la pertinence du savoir-faire, pas les ventes : le taux de clic sur les suggestions sera publié quand il y aura assez de visites (enregistrement depuis le 20 novembre 2026).
 
 <div style="page-break-after: always;"></div>
 
@@ -105,6 +128,9 @@ Valeurs lues dans la base de données le 20 novembre 2026. Les profils de démon
 | Scans de passeports QR | 1 | compteur incrémenté à chaque scan |
 | Champs de passeport remplis | 9 / 63 (14 %) | table des produits |
 | Commandes | **0** | table des commandes |
+| Recherches enregistrées (depuis le 20 nov.) | 0 | table search_events |
+| Vues, clics « contacter », clics sur suggestions (depuis le 20 nov.) | 0 / 0 / 0 | table interactions |
+| Pertinence des suggestions ML (3 premières, même savoir-faire) | 59 % (× 4,25 vs hasard) | évaluation sur la base |
 
 **Mesuré depuis le 20 novembre 2026.** Les vues des œuvres, les clics « contacter », les clics sur les suggestions et les recherches sont enregistrés depuis cette date (anonymement). Ils partent de zéro ; ils seront publiés dès qu'il y aura des données.
 
@@ -176,6 +202,7 @@ Le prototype fonctionne aujourd'hui sur des offres gratuites. Elles ne convienne
 | Une recherche IA | ≤ 0,0037 DT | plafond : 4 000 jetons en entrée et 3 000 en sortie (limites du code), gpt-oss-20b |
 | Description automatique d'une photo | ≈ 0,0085 DT | 1 500 jetons en entrée, 400 en sortie (estimation), Qwen 3.8 |
 | 10 000 recherches + 200 photos par mois | ≈ 38 DT | exemple, au plafond |
+| Suggestions ML (empreintes + classement) | 0 DT | modèle exécuté localement, recherche vectorielle incluse dans Supabase |
 
 ### 7.3 Coûts non inclus
 
@@ -237,6 +264,7 @@ Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès l
 | Mise en contact | clics « contacter » ÷ vues de profil | depuis le 20 nov. | oui |
 | Suggestions ML | clics sur les suggestions ÷ suggestions affichées ; précision@3 hors ligne 58,7 % (×4,25 vs hasard) | depuis le 20 nov. | oui |
 | Revenu Astarte | commissions + abonnements + services | 0 DT | oui |
+| Qualité des suggestions | part des 3 premières suggestions du même savoir-faire | 59 % | oui |
 
 <div style="page-break-after: always;"></div>
 

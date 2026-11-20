@@ -138,7 +138,7 @@ def kpi_cards() -> str:
              ("Commandes", P.num(R["orders"]), "paiement en ligne pas encore branché"),
              ("Coût actuel", P.dt(P.FIX0), "par mois, offres gratuites"),
              ("Coût au lancement", P.dt(P.FIX1), "par mois, hébergement payant"),
-             ("Recherche IA", "≤ " + P.dt(P.SEARCH, 3), "par recherche, plafond"),
+             ("Suggestions ML", P.pct(R["ml_p3"]), f"pertinentes, × {P.num(R['ml_lift'], 2)} vs hasard"),
              ("Seuil hébergement", P.num(M.orders_to_cover(P.FIX1) + 0.49), f"commandes / mois à {P.dt(M.PRICE_MID)}")]
     return '<div class="cards">' + "".join(
         f'<div class="card"><div class="c-l">{a}</div><div class="c-v">{b}</div><div class="c-s">{c}</div></div>' for a, b, c in cards) + "</div>"
