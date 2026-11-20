@@ -39,7 +39,7 @@
 
 **La solution.** Une web application centrée sur l'artiste : portfolio, boutique, événements, recherche IA en français, anglais, arabe et derja qui ne recommande que des créateurs réels, et un **Passeport Savoir-faire** avec QR code par objet.
 
-**Où nous en sommes (20 novembre 2026).** 11 créateurs réels en ligne, 9 produits (4 avec prix), 41 photos, 5 événements, 96 vues de profils, **0 commande**. Aucune vente n'a encore eu lieu : le paiement en ligne n'est pas branché.
+**Où nous en sommes (20 novembre 2026).** 11 créateurs réels en ligne, 9 produits (4 avec prix), 41 photos, 5 événements, 100 vues de profils, **0 commande**. Aucune vente n'a encore eu lieu : le paiement en ligne n'est pas branché.
 
 **Ce que coûte le produit.** 0 DT par mois aujourd'hui (offres gratuites). Environ **137 DT par mois** pour un lancement commercial (hébergement et base de données payants). Une recherche IA coûte au plus 0,004 DT.
 
@@ -101,12 +101,12 @@ Valeurs lues dans la base de données le 20 novembre 2026. Les profils de démon
 | Produits avec un prix affiché | 4 / 9 | table des produits |
 | Photos dans les portfolios | 41 | table des images |
 | Événements publiés | 5 | table des événements |
-| Vues de profils de créateurs | 96 | compteur incrémenté à chaque visite |
+| Vues de profils de créateurs | 100 | compteur incrémenté à chaque visite |
 | Scans de passeports QR | 1 | compteur incrémenté à chaque scan |
 | Champs de passeport remplis | 9 / 63 (14 %) | table des produits |
 | Commandes | **0** | table des commandes |
 
-**Ce qui n'est pas encore mesuré.** Les clics sur « contacter l'artiste », les vues des pages produits et les recherches effectuées ne sont pas enregistrés par le code actuel. Ces chiffres ne figurent donc nulle part dans ce plan.
+**Mesuré depuis le 20 novembre 2026.** Les vues des œuvres, les clics « contacter », les clics sur les suggestions et les recherches sont enregistrés depuis cette date (anonymement). Ils partent de zéro ; ils seront publiés dès qu'il y aura des données.
 
 **Lecture honnête.** Les vues de profils incluent les visites de l'équipe et des tests. Le seul chiffre de demande qui compte, les commandes réelles, est à zéro : c'est ce que le pilote doit changer.
 
@@ -214,7 +214,7 @@ Des actions que l'équipe contrôle, chacune vérifiable dans la base ou par un 
 | Prix affiché sur chaque produit | 4 / 9 | 9 / 9 | table des produits |
 | Passeports complétés avec les créateurs | 9 / 63 champs | 63 / 63 | table des produits |
 | Cartes QR posées sur les objets en vente | 0 | une par objet | scans enregistrés |
-| Enregistrer les clics « contacter » et les recherches | non mesuré | mesuré | nouvelles tables dans la base |
+| Enregistrer les clics « contacter » et les recherches | fait (20 nov. 2026) | suivi chaque semaine | tables interactions et search_events |
 | Paiement en ligne avec un prestataire local | non | oui | commandes payées en ligne |
 | Commandes réelles | 0 | **mesurées, sans objectif chiffré** | table des commandes |
 
@@ -231,10 +231,11 @@ Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès l
 | Créateurs actifs | créateurs réels approuvés | 11 | oui |
 | Offre en vente | produits publiés avec prix | 4 | oui |
 | Complétude des passeports | champs remplis ÷ champs possibles | 14 % | oui |
-| Visibilité | vues des profils de créateurs | 96 | oui |
+| Visibilité | vues des profils de créateurs | 100 | oui |
 | Usage des passeports | scans de QR codes | 1 | oui |
 | Ventes | nombre et montant des commandes | 0 | oui |
-| Mise en contact | clics « contacter » ÷ vues de profil | – | dès le pilote |
+| Mise en contact | clics « contacter » ÷ vues de profil | depuis le 20 nov. | oui |
+| Suggestions ML | clics sur les suggestions ÷ suggestions affichées ; précision@3 hors ligne 58,7 % (×4,25 vs hasard) | depuis le 20 nov. | oui |
 | Revenu Astarte | commissions + abonnements + services | 0 DT | oui |
 
 <div style="page-break-after: always;"></div>
@@ -258,7 +259,7 @@ Uniquement des indicateurs que la base enregistre déjà, ou enregistrera dès l
 - **Pas de taille de marché chiffrée** au-delà des chiffres publics cités.
 - **Pas de valorisation.**
 - **Pas d'impact carbone annoncé :** les passeports n'affichent que des faits déclarés par les créateurs.
-- **Pas de taux de conversion ni de mise en contact** tant qu'ils ne sont pas enregistrés.
+- **Pas de taux de conversion ni de mise en contact** annoncé avant d'avoir assez de visites réelles.
 
 <div style="page-break-after: always;"></div>
 

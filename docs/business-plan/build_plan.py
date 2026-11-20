@@ -132,8 +132,8 @@ w(f"| Vues de profils de créateurs | {R['profile_views']} | compteur incrément
 w(f"| Scans de passeports QR | {R['passport_scans']} | compteur incrémenté à chaque scan |")
 w(f"| Champs de passeport remplis | {R['passport_filled']} / {R['passport_total']} ({pct(PASS_RATE)}) | table des produits |")
 w(f"| Commandes | **{R['orders']}** | table des commandes |\n")
-w("**Ce qui n'est pas encore mesuré.** Les clics sur « contacter l'artiste », les vues des pages produits et les recherches "
-  "effectuées ne sont pas enregistrés par le code actuel. Ces chiffres ne figurent donc nulle part dans ce plan.\n")
+w("**Mesuré depuis le 20 novembre 2026.** Les vues des œuvres, les clics « contacter », les clics sur les suggestions et les "
+  "recherches sont enregistrés depuis cette date (anonymement). Ils partent de zéro ; ils seront publiés dès qu'il y aura des données.\n")
 w("**Lecture honnête.** Les vues de profils incluent les visites de l'équipe et des tests. Le seul chiffre de demande qui "
   "compte, les commandes réelles, est à zéro : c'est ce que le pilote doit changer.")
 w(PB)
@@ -214,7 +214,7 @@ w(f"| Accord écrit de chaque créateur présent | à collecter | {R['creators']
 w(f"| Prix affiché sur chaque produit | {R['priced']} / {R['products']} | {R['products']} / {R['products']} | table des produits |")
 w(f"| Passeports complétés avec les créateurs | {R['passport_filled']} / {R['passport_total']} champs | {R['passport_total']} / {R['passport_total']} | table des produits |")
 w("| Cartes QR posées sur les objets en vente | 0 | une par objet | scans enregistrés |")
-w("| Enregistrer les clics « contacter » et les recherches | non mesuré | mesuré | nouvelles tables dans la base |")
+w("| Enregistrer les clics « contacter » et les recherches | fait (20 nov. 2026) | suivi chaque semaine | tables interactions et search_events |")
 w("| Paiement en ligne avec un prestataire local | non | oui | commandes payées en ligne |")
 w(f"| Commandes réelles | {R['orders']} | **mesurées, sans objectif chiffré** | table des commandes |\n")
 w("Nous ne fixons pas d'objectif de commandes : nous n'avons aucune donnée pour le justifier. Le premier objectif est d'en "
@@ -231,7 +231,8 @@ w(f"| Complétude des passeports | champs remplis ÷ champs possibles | {pct(PAS
 w(f"| Visibilité | vues des profils de créateurs | {R['profile_views']} | oui |")
 w(f"| Usage des passeports | scans de QR codes | {R['passport_scans']} | oui |")
 w(f"| Ventes | nombre et montant des commandes | {R['orders']} | oui |")
-w("| Mise en contact | clics « contacter » ÷ vues de profil | – | dès le pilote |")
+w("| Mise en contact | clics « contacter » ÷ vues de profil | depuis le 20 nov. | oui |")
+w("| Suggestions ML | clics sur les suggestions ÷ suggestions affichées ; précision@3 hors ligne 58,7 % (×4,25 vs hasard) | depuis le 20 nov. | oui |")
 w("| Revenu Astarte | commissions + abonnements + services | 0 DT | oui |")
 w(PB)
 
@@ -252,7 +253,7 @@ w("- **Pas de prévision de chiffre d'affaires** sur plusieurs années : sans un
 w("- **Pas de taille de marché chiffrée** au-delà des chiffres publics cités.")
 w("- **Pas de valorisation.**")
 w("- **Pas d'impact carbone annoncé :** les passeports n'affichent que des faits déclarés par les créateurs.")
-w("- **Pas de taux de conversion ni de mise en contact** tant qu'ils ne sont pas enregistrés.")
+w("- **Pas de taux de conversion ni de mise en contact** annoncé avant d'avoir assez de visites réelles.")
 w(PB)
 
 # 13 --------------------------------------------------------------
