@@ -52,7 +52,7 @@ Profile & location privacy · works with multi-photo upload · orders & custom r
 Overview built from live database queries · artist approvals & identity verification · **image review** with authenticity evidence · event suggestions · Point Merci campaigns, offers, point adjustments, suspicious-activity flags · incubation applications & workshops · user suspension/restoration · **audit log** of every decision.
 
 ### 2.4 Content currently on the platform
-- **11 real creators** from supplied material: Cove, The Targets, Twisted Reflection (bands), Fousaifouse (mosaic), Wood Carving Atelier, Clay & Heritage Pottery, Bouchra Chebbi (string art), Iheb Hoba (painting), Issam Majdoub (silver), Maryem · Fake Jewls Bags (beaded bags), Ricordami by Darahim (preserved-flower keepsakes).
+- **11 real creators** from supplied material: Cove, The Targets, Twisted Reflection (bands), Fousaifouse · Henda Namouchi (mosaic), Wood Carving Atelier, Clay & Heritage Pottery, Bouchra Chebbi (string art), Iheb Hoba (painting), Issam Majdoub (silver), Maryem · Fake Jewls Bags (beaded bags), Ricordami by Darahim (preserved-flower keepsakes).
 - **9 real products** (4 mosaic pieces at 90–100 DT, others “price on request”), 1 real upcoming concert, 41 approved photos, 3 videos.
 - **9 demo profiles**, always labelled “Demo ·” with a site banner, so the empty-state is never faked.
 - **24 disciplines**, each with a recoloured 3D icon (3dicons, CC0).
@@ -206,7 +206,7 @@ Artist self-signup with a guided studio, incubation milestones that push complet
 ## Part 6 — 5-minute demo script
 1. **Homepage (30 s):** the orb; type “nheb fsifsa”. Show mosaic results and the “why it matches” lines.
 2. **Picture search (30 s):** “butterfly poster” → Cove with the poster image; explain photo descriptions.
-3. **Artist profile (45 s):** Fousaifouse: gallery, video, products at 90–100 DT, share button.
+3. **Artist profile (45 s):** Fousaifouse · Henda Namouchi: gallery, video, products at 90–100 DT, share button.
 4. **Marketplace & order (45 s):** add the palm-leaf table to cart → order request (no fake payment).
 5. **Point Merci (30 s):** ledger, offers, voucher codes; explain anti-cheat.
 6. **Admin (60 s):** image review with detector score and the stage-photo false positive; approve; show the audit log.

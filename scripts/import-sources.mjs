@@ -51,8 +51,8 @@ const ARTISTS = [
     ],
   },
   {
-    slug: "fousaifouse", name: "Fousaifouse", primary: "mosaic", categories: ["mosaic", "traditional-crafts"], specialties: ["mosaic", "stone and glass tesserae", "mosaic tables"],
-    bio: "Mosaic artisan working with stone and glass tesserae: portraits, vases, tables and small decorative pieces. The photos also show a group mosaic workshop.",
+    slug: "fousaifouse", name: "Fousaifouse · Henda Namouchi", primary: "mosaic", categories: ["mosaic", "traditional-crafts"], specialties: ["mosaic", "stone and glass tesserae", "mosaic tables"],
+    bio: "Fousaifouse is the mosaic studio of Henda Namouchi, a mosaic artisan working with stone and glass tesserae: portraits, vases, tables and small decorative pieces. The photos also show a group mosaic workshop.",
     location: null,
     video: "fousaifouse/video.mp4",
     images: [

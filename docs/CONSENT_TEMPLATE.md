@@ -27,7 +27,7 @@ Send one message per artist, wait for an explicit "yes", screenshot the reply, a
 | Cove | logo, band photo, concert poster, event | — | [ ] |
 | The Targets | live photo, logo | — | [ ] |
 | Twisted Reflection | logo, concert poster | — | [ ] |
-| Fousaifouse | 5 photos, video, 4 products | 90–100 DT | [ ] |
+| Fousaifouse · Henda Namouchi | 5 photos, video, 4 products | 90–100 DT | [ ] |
 | Wood Carving Atelier (real name?) | video + 2 stills | — | [ ] |
 | Clay & Heritage Pottery (real name?) | video + 3 stills | — | [ ] |
 | Bouchra Chebbi | 1 artwork | — | [ ] |
