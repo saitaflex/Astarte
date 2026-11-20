@@ -24,6 +24,8 @@ const L = {
     honest: "These facts are declared by the artisan and shown as given. Astarte does not estimate carbon figures it has not measured.",
     authenticity: "Authenticity", reviewed: "Photos reviewed by the Astarte team. A review is not proof of how a work was made.",
     scan: "Scan to open this passport", print: "Print QR card", buy: "See the work", profile: "Artisan profile",
+    demo: "Demo example: this artisan and these passport facts are fictional, written to show how a complete passport looks.",
+    demoShort: "Demo example: fictional data",
   },
   fr: {
     title: "Passeport Savoir-faire", maker: "Fait par", technique: "Technique", materials: "Matériaux", origin: "Fabriqué à", time: "Temps de fabrication",
@@ -35,6 +37,8 @@ const L = {
     honest: "Ces informations sont déclarées par l'artisan et affichées telles quelles. Astarte n'estime pas de chiffres carbone non mesurés.",
     authenticity: "Authenticité", reviewed: "Photos vérifiées par l'équipe Astarte. Une vérification ne prouve pas comment une œuvre a été réalisée.",
     scan: "Scannez pour ouvrir ce passeport", print: "Imprimer la carte QR", buy: "Voir l'œuvre", profile: "Profil de l'artisan",
+    demo: "Exemple de démonstration : cet artisan et ces informations sont fictifs, rédigés pour montrer un passeport complet.",
+    demoShort: "Exemple de démonstration : données fictives",
   },
   ar: {
     title: "جواز الحِرفة", maker: "صنعه", technique: "التقنية", materials: "المواد", origin: "صُنع في", time: "مدة الصنع",
@@ -46,6 +50,8 @@ const L = {
     honest: "هذه المعلومات يصرّح بها الحرفي وتُعرض كما هي. لا يقدّر Astarte أرقام كربون لم تُقَس.",
     authenticity: "الأصالة", reviewed: "راجع فريق Astarte الصور. المراجعة ليست دليلًا على طريقة صنع العمل.",
     scan: "امسح لفتح هذا الجواز", print: "اطبع بطاقة QR", buy: "شاهد العمل", profile: "ملف الحرفي",
+    demo: "مثال توضيحي: هذا الحرفي وهذه المعلومات خيالية، كُتبت لإظهار شكل جواز مكتمل.",
+    demoShort: "مثال توضيحي: بيانات خيالية",
   },
 };
 

@@ -32,6 +32,7 @@ export default async function PassportCard({ params }: { params: Promise<{ local
         <p className="mt-3 font-display text-lg leading-tight">{p.title}</p>
         <p className="text-sm text-muted">{l.maker} {artist.displayName}</p>
         <p className="mt-2 text-[10px] text-muted">{l.scan}</p>
+        {artist.isDev && <p className="mt-2 rounded-full border border-orange px-3 py-0.5 text-[10px] font-semibold text-orange-ink">{l.demoShort}</p>}
       </div>
     </div>
   );

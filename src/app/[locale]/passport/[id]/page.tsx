@@ -74,6 +74,9 @@ export default async function PassportPage({ params, searchParams }: { params: P
         {p.categories.map((c) => categoryName(c, locale)).join(" · ")} — {l.maker}{" "}
         <Link href={`/${locale}/artists/${artist.slug}`} className="text-charcoal underline decoration-orange/60 underline-offset-4">{artist.displayName}</Link>
       </p>
+      {artist.isDev && (
+        <p className="mt-4 rounded-[var(--radius-card)] border border-orange/50 bg-orange/10 px-4 py-3 text-sm">{l.demo}</p>
+      )}
 
       <div className="mt-8 grid gap-8 md:grid-cols-[1.1fr_1fr]">
         <div className="group relative aspect-[4/5] overflow-hidden rounded-[22px]">
